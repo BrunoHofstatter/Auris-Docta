@@ -52,11 +52,16 @@ Free play is playable. Practice remains a labeled preview. Exercise generation, 
 
 ## Documentation and examples
 
+- [Documentation index](docs/README.md): start here; the local Markdown files now contain the complete project documentation.
+- [Product overview](docs/product-overview.md), [build plan](docs/build-plan.md), and [implementation status](docs/implementation-status.md): goals, all planned steps, and what is actually built.
 - [Music format v1](docs/music-format.md): the agreed contract, readable JSON examples, timing, instruments/parts, strength, sustain, answer groups, defaults, and limits.
 - [Architecture and build status](docs/architecture.md): module boundaries, decisions, and next-step checks.
 - [Free play and audio](docs/free-play.md): implemented behavior, keyboard mapping, sample provenance, validation, and remaining iPhone checks.
 - [C-major example](examples/c-major-scale.json): ascending scale and final chord.
-- [Original product specification](https://docs.google.com/document/d/1wyQmN2cOXtfLRFFy2uItYIpH8JgFTqWFJunVlW2kdfE/edit?usp=drivesdk).
+- [Deployment documentation](docs/deployment.md): the configured Pages workflow and choosing the actual Git checkout.
+- [Google Docs source archive](docs/archive/google-docs-2026-10-21.md): the complete original planning text, retained as historical provenance.
+
+All ten Google Docs tabs are now represented in separate topic files under `docs/`. Maintain the local Markdown going forward; the archive preserves the older wording while current specifications include the later format and Free play decisions. [AGENTS.md](AGENTS.md) gives a brief project overview and documentation map for coding agents.
 
 ## Checks
 

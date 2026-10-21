@@ -2,6 +2,8 @@
 
 The playable Free play screen and acoustic-piano engine are implemented. Practice exercises remain a later step. Actual iPhone Safari acceptance is still pending; browser emulation cannot establish physical-device audio latency or interruption behavior.
 
+See [the documentation index](README.md) for the full product plan, [sound-and-practice.md](sound-and-practice.md) for future practice requirements, and [implementation-status.md](implementation-status.md) for current delivery status.
+
 ## Layout and controls
 
 - Desktop uses all 88 piano keys, A0–C8, with no horizontal scrolling.

@@ -4,7 +4,7 @@
 
 The app trains practical transcription by ear. The primary device is an iPhone using Safari; Windows laptop use is supported. The agreed delivery is a responsive client-side web app, with PWA installation/offline support later. The initial product has no backend, authentication, AI runtime dependency, microphone transcription, or MIDI input.
 
-The original [Drive specification](https://docs.google.com/document/d/1wyQmN2cOXtfLRFFy2uItYIpH8JgFTqWFJunVlW2kdfE/edit?usp=drivesdk) supplies the incremental build order. The subsequent format decisions are recorded in [music-format.md](music-format.md).
+The local [documentation index](README.md) is the starting point and the maintained source of truth. [build-plan.md](build-plan.md) supplies the incremental build order; [music-format.md](music-format.md) records the agreed format. Every source Google Docs paragraph is preserved in the [source archive](archive/google-docs-2026-10-21.md); that archive is historical, not a competing current specification.
 
 ## Stack decisions
 
@@ -20,7 +20,7 @@ The original [Drive specification](https://docs.google.com/document/d/1wyQmN2cOX
 | Tests | Vitest for the musical invariants and invalid-data cases |
 | Audio | Native Web Audio with independent sampled voices and native-clock scheduling |
 
-Step 2 uses a pinned Salamander piano sample distribution with retained attribution. Native Web Audio was selected for direct per-voice control, particularly repeated notes under sustain. No additional audio-library dependency was needed. Final hosting is not selected.
+Step 2 uses a pinned Salamander piano sample distribution with retained attribution. Native Web Audio was selected for direct per-voice control, particularly repeated notes under sustain. No additional audio-library dependency was needed. A GitHub Pages deployment workflow is configured; see [deployment.md](deployment.md). The workflow's presence does not establish a successful live deployment.
 
 ## Module boundaries
 

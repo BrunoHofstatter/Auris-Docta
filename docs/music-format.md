@@ -1,6 +1,6 @@
 # Auris Docta music format — version 1
 
-This is the agreed music format implemented in Step 1. It describes music independently of playback, visualization, and exercise checking. The same document supplies all three. It is an application format for pitched music, not a sheet-music interchange standard.
+This is the agreed music format implemented in Step 1 and consumed by the Step 2 audio engine. It describes music independently of playback, visualization, and exercise checking. The same document is the shared source for these features; visualization and the grading UI remain planned. It is an application format for pitched music, not a sheet-music interchange standard. See [the documentation index](README.md) for current product plans and [implementation-status.md](implementation-status.md) for implemented behavior.
 
 For a complete example, open [C major scale and final chord](../examples/c-major-scale.json). It plays C4 through C5 in quarter notes, followed by C4/E4/G4 held for four quarter notes. At 120 quarter notes per minute, its scheduled length is six seconds. Piano release tails can continue afterward. The declared left-hand part is silent.
 
@@ -64,7 +64,7 @@ Pitch notation uses a letter, optional single/double sharp or flat, and an octav
 
 The music domain supports sounding pitches C−1 through G9 (internal numbers 0–127). A piano keyboard's A0–C8 range is a separate UI/instrument constraint. The internal numbering does not require MIDI hardware or MIDI integration.
 
-`duration` ends at **key/note release**, rather than guaranteeing instantaneous silence. Audio release tails and pedal resonance are separate. Repeated attacks of the same pitch have different IDs, including when an earlier note is still sustaining. The eventual audio engine must preserve these separate note instances.
+`duration` ends at **key/note release**, rather than guaranteeing instantaneous silence. Audio release tails and pedal resonance are separate. Repeated attacks of the same pitch have different IDs, including when an earlier note is still sustaining. The implemented piano engine preserves these separate note instances.
 
 An optional note-level `hand` (`"left"` or `"right"`) overrides its part's hand assignment. Hand assignment does not change pitch, timing, or grading.
 
@@ -84,7 +84,7 @@ An instrument is a **sounding instance** with a unique `id` and a `sound` identi
 - Parts may share one instrument, and notes may overlap within or across parts.
 - A part's optional `hand` is a default assignment for its notes. It is independent of any future notation staff or voice.
 
-Sound identifiers are lower-case names such as `acoustic-grand-piano`, `flute`, or `strings`. Version 1 validates the identifier's shape, not sample availability. A future audio engine must report an unavailable sound explicitly and must not silently substitute a different instrument. Additional sounds need not change the document structure.
+Sound identifiers are lower-case names such as `acoustic-grand-piano`, `flute`, or `strings`. Version 1 validates the identifier's shape, not sample availability. The current audio engine accepts only the installed `acoustic-grand-piano` sound and reports unavailable instruments explicitly. Future engines must preserve that behavior rather than silently substitute a different instrument. Additional sounds need not change the document structure.
 
 For an instrument switch, put the subsequent notes in a part referencing the new instrument instance. There is no sound-change event in version 1.
 
@@ -107,9 +107,9 @@ Sustain is initially off. Each event sets the state until the next event. Events
 
 With sustain down, releasing a note leaves it eligible to ring until pedal release. A note whose key is still held remains held when the pedal is released. Pedal events at a timestamp are applied before note releases and attacks at that timestamp. The renderer processes note releases before new attacks at the same timestamp, preserving repeated notes as separate instances.
 
-Playback stops clear active notes and pedal state. At the scheduled end, release remaining pedal state automatically; an explicit final pedal-up event is optional. Seeking/restarting must reconstruct the active notes and pedal state at the destination. These are requirements for Step 2, not an audio implementation in Step 1.
+Playback stops clear active notes and pedal state. At the scheduled end, release remaining pedal state automatically; an explicit final pedal-up event is optional. These behaviors are implemented by the Step 2 live engine and scheduled-playback plan. Future seeking/restarting must reconstruct active notes and pedal state at the destination; synchronized seeking is planned for the practice/visualization steps, not implemented in Free play.
 
-Only on/off sustain is included. Physical sympathetic resonance depends on the eventual instrument engine; no acoustic simulation is promised by this data model.
+Only on/off sustain is included. Physical sympathetic resonance depends on the instrument engine; the current sample player does not simulate it, and this data model does not promise an acoustic simulation.
 
 ## 7. Tempo, key, and meter changes
 
@@ -153,7 +153,7 @@ The array explicitly defines answer order. Each group selects source notes by ID
 
 Several successive notes can form one broken-chord answer. Two instruments doubling the same sounding pitch within one group require entering that pitch once. Repeated pitches in different groups remain separate answers. Tap order within a group does not matter; group order does. Group membership is not inferred from note onsets.
 
-Version 1 grades pitch including octave, with enharmonic equivalence. It does not grade duration, rhythm, strength, pedal, hand, or instrument identification. Answer input stores ordered sets of sounding pitches separately from source music. The source solution and pitch-bearing visualization remain hidden until submission or an explicit reveal. Grading UI and sequence alignment belong to later steps.
+The version 1 grading contract compares pitch including octave, with enharmonic equivalence. It does not grade duration, rhythm, strength, pedal, hand, or instrument identification. Future answer input stores ordered sets of sounding pitches separately from source music. During practice, the source solution and pitch-bearing visualization must remain hidden until submission or an explicit reveal. Only source-group derivation exists now; answer input, grading UI, and sequence alignment belong to later steps.
 
 If `exercise` is present, it must contain at least one nonempty answer group. Its references must exist and its IDs must be unique. Optional accompaniment and music-only documents need no fake answer groups.
 
@@ -194,7 +194,7 @@ Version 1 readers reject unsupported fields/versions. Future revisions must spec
 - `src/music/model.ts`: runtime schema, TypeScript types, references, bounds, and JSON validation.
 - `src/music/time.ts`: exact rational arithmetic and conversion through a step tempo map.
 - `src/music/pitch.ts`: spelling normalization, sounding pitch, frequency, and piano UI range.
-- `src/music/timeline.ts`: derived timeline for future sound/visualization, resolved strength/hand, and solution groups.
+- `src/music/timeline.ts`: derived timeline used by the current audio engine and future visualization, resolved strength/hand, and solution groups.
 - `src/music/music.test.ts`: executable examples and validation/time-model checks.
 
-No audio engine, importer screen, or piano-roll renderer is claimed by these foundation modules.
+The audio engine is implemented separately in `src/audio/`; see [free-play.md](free-play.md). An importer screen and piano-roll renderer remain unimplemented.
