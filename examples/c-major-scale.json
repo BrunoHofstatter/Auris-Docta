@@ -1,0 +1,63 @@
+{
+  "format": "auris-docta",
+  "version": 1,
+  "title": "C major scale ending with a C major chord",
+  "music": {
+    "timeUnit": "quarterNote",
+    "length": "12",
+    "defaultStrength": 0.7,
+    "tempoChanges": [
+      { "at": "0", "quarterNotesPerMinute": 120 }
+    ],
+    "keyChanges": [
+      { "at": "0", "tonic": "C", "mode": "major" }
+    ],
+    "meterChanges": [
+      { "at": "0", "numerator": 4, "denominator": 4 }
+    ],
+    "instruments": [
+      { "id": "piano-1", "sound": "acoustic-grand-piano" }
+    ],
+    "parts": [
+      {
+        "id": "piano-right",
+        "name": "Piano — right hand",
+        "instrumentId": "piano-1",
+        "hand": "right",
+        "notes": [
+          { "id": "n1", "pitch": "C4", "at": "0", "duration": "1" },
+          { "id": "n2", "pitch": "D4", "at": "1", "duration": "1" },
+          { "id": "n3", "pitch": "E4", "at": "2", "duration": "1" },
+          { "id": "n4", "pitch": "F4", "at": "3", "duration": "1" },
+          { "id": "n5", "pitch": "G4", "at": "4", "duration": "1" },
+          { "id": "n6", "pitch": "A4", "at": "5", "duration": "1" },
+          { "id": "n7", "pitch": "B4", "at": "6", "duration": "1" },
+          { "id": "n8", "pitch": "C5", "at": "7", "duration": "1" },
+          { "id": "n9", "pitch": "C4", "at": "8", "duration": "4" },
+          { "id": "n10", "pitch": "E4", "at": "8", "duration": "4" },
+          { "id": "n11", "pitch": "G4", "at": "8", "duration": "4", "strength": 0.9 }
+        ]
+      },
+      {
+        "id": "piano-left",
+        "name": "Piano — left hand",
+        "instrumentId": "piano-1",
+        "hand": "left",
+        "notes": []
+      }
+    ]
+  },
+  "exercise": {
+    "answerGroups": [
+      { "id": "g1", "noteIds": ["n1"] },
+      { "id": "g2", "noteIds": ["n2"] },
+      { "id": "g3", "noteIds": ["n3"] },
+      { "id": "g4", "noteIds": ["n4"] },
+      { "id": "g5", "noteIds": ["n5"] },
+      { "id": "g6", "noteIds": ["n6"] },
+      { "id": "g7", "noteIds": ["n7"] },
+      { "id": "g8", "noteIds": ["n8"] },
+      { "id": "g9", "noteIds": ["n9", "n10", "n11"] }
+    ]
+  }
+}
