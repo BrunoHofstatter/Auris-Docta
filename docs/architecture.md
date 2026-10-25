@@ -24,7 +24,7 @@ Step 2 uses a pinned Salamander piano sample distribution with retained attribut
 
 ## Module boundaries
 
-`src/App.tsx` and `src/styles.css` own the app shell and homepage. `src/piano/` owns the playable keyboard and Free play screen. Practice remains a preview. No sample solution or source note data is rendered in the homepage; its piano illustration is decorative.
+`src/App.tsx` and `src/styles.css` own navigation, the app shell, and the homepage. `src/piano/FreePlay.tsx` is the selected Dark studio screen at `#/free-play`, styled by `free-play.css`. `useFreePlayInstrument.ts` owns its audio lifecycle, live inputs, and preferences; `PianoKeyboard.tsx` and `piano.css` own the keyboard and its geometry. The unused design alternatives and comparison routes have been removed. The visual reference is [the design guide](../design/design-guide.md). Practice remains a preview. No sample solution or source note data is rendered in the homepage; its piano illustration is decorative.
 
 `src/music/model.ts` owns the versioned source document and validation. `time.ts` owns exact musical time and the shared tempo clock. `pitch.ts` owns sounding pitch and spelling. `timeline.ts` derives scheduled notes, strength/hand defaults, sustain events, and solution pitches. These modules are pure; they do not start audio or depend on React.
 

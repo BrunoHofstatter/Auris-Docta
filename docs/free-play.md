@@ -6,11 +6,13 @@ See [the documentation index](README.md) for the full product plan, [sound-and-p
 
 ## Layout and controls
 
+Free play uses the selected Dark studio design at `#/free-play`: charcoal surfaces, ivory keys, amber highlights, a compact home link, and Settings/Help popovers. Volume and note-label controls live in Settings; Sustain and Stop remain directly accessible below the keyboard. Help includes the computer-key map and piano credits. The design alternatives and prototype routes have been removed. See [the design guide](../design/design-guide.md) for the appearance and component styles.
+
 - Desktop uses all 88 piano keys, A0–C8, with no horizontal scrolling.
 - Mobile mode uses a coarse primary pointer and a viewport no wider than 1,200 CSS pixels. A narrow mouse-operated desktop window remains a full piano.
 - The initial mobile register is C4–B5, with one neighboring note at each end: **B3–C6**, 26 keys including black keys.
-- Mobile keys use 48% of the dynamic viewport height, capped at 250px with a 110px minimum. The surrounding area holds the heading, controls, and space reusable by future practice UI.
-- Gray circular chevrons move the visible register by one octave. The core start octave is 0–7; clipping at A0/C8 keeps the ends playable. Arrows disable at those limits. No drag-to-scroll behavior is used.
+- Mobile keys use 48% of the dynamic viewport height, capped at 250px with a 110px minimum. The surrounding area holds the compact brand/actions, live note readout, and piano controls.
+- Chevron buttons in dark side blocks move the visible register by one octave. The core start octave is 0–7; clipping at A0/C8 keeps the ends playable. Arrows disable at those limits. No drag-to-scroll behavior is used.
 - Portrait mobile displays the rotation prompt. Range, volume, and labels survive rotation. Active notes and sustain are cleared when layout/orientation changes.
 - Sustain toggles on/off and always begins off. Volume starts at 65%. Note labels show only C pitches by default, with a toggle for all names.
 - Volume, labels, and mobile octave are saved as basic local preferences. Storage failure does not prevent playing. These preferences are unrelated to future session/attempt storage.
@@ -18,7 +20,7 @@ See [the documentation index](README.md) for the full product plan, [sound-and-p
 
 Touch/mouse press holds a note; release ends the key press. Independent fingers can play chords. Dragging a finger across keys releases its old key and starts the next one. Releasing one finger does not release another finger's note, including when both address the same pitch. Cancelled touch and lost pointer capture release that input's voice.
 
-Pressed notes have a strong green highlight. Released notes ringing under sustain have a subtler highlight. Pressed state takes precedence when a pitch is both held and sustaining. A naturally decayed sample does not erase a physically held-key highlight.
+Pressed notes have a strong amber highlight. Released notes ringing under sustain have a subtler amber bar/lip. Pressed state takes precedence when a pitch is both held and sustaining. A naturally decayed sample does not erase a physically held-key highlight.
 
 ## Computer keyboard
 

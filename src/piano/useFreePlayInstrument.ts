@@ -3,7 +3,7 @@ import { PianoEngine } from '../audio/PianoEngine'
 import type { PianoSnapshot } from '../audio/PianoEngine'
 import { COMPUTER_KEYS, INITIAL_OCTAVE, pianoRange } from './layout'
 
-export function useMedia(query: string) {
+function useMedia(query: string) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
   useEffect(() => {
     const media = window.matchMedia(query)
@@ -29,8 +29,8 @@ const INITIAL_AUDIO: PianoSnapshot = { status: 'idle', loaded: 0, total: 30, err
 
 /**
  * Free play instrument: audio engine lifecycle, input ownership, preferences,
- * hardware keyboard mapping, and interruption cleanup. Shared by the Free play
- * screen and its design prototypes so the instrument logic exists only once.
+ * hardware keyboard mapping, and interruption cleanup, separate from the
+ * Free play screen's visual components.
  */
 export function useFreePlayInstrument() {
   const [saved] = useState(preferences)

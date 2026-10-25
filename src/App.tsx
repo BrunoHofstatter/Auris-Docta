@@ -11,7 +11,8 @@ type Page = keyof typeof pages
 function currentPage(): Page | 'not-found' {
   const path = window.location.hash.replace(/^#\/?/, '').replace(/\/$/, '')
   if (!path) return 'home'
-  return Object.hasOwn(pages, path) ? path as Page : 'not-found'
+  if (Object.hasOwn(pages, path)) return path as Page
+  return 'not-found'
 }
 
 function PianoStudy() {
@@ -97,12 +98,21 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
   useEffect(() => {
-    document.title = `${page === 'not-found' ? 'Page not found' : pages[page]} · Auris Docta`
+    const title = page === 'not-found' ? 'Page not found' : pages[page]
+    document.title = `${title} · Auris Docta`
     if (initial.current) { initial.current = false; return }
     main.current?.focus()
     window.scrollTo(0, 0)
   }, [page])
-  return <div className={`app-shell${page === 'free-play' ? ' is-free-play' : ''}`}>
+  if (page === 'free-play') {
+    return <>
+      <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); main.current?.focus() }}>Skip to content</a>
+      <main id="main-content" ref={main} tabIndex={-1}>
+        <FreePlay />
+      </main>
+    </>
+  }
+  return <div className="app-shell">
     <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); main.current?.focus() }}>Skip to content</a>
     <header className="site-header">
       <a className="brand" href="#/home" aria-label="Auris Docta home"><span className="brand-mark" aria-hidden="true"><i /><i /><i /><i /></span><span>Auris Docta<span className="brand-subtitle">PIANO & EAR TRAINING</span></span></a>
@@ -110,7 +120,7 @@ export default function App() {
       <span className="preview-label">EARLY PREVIEW</span>
     </header>
     <main id="main-content" ref={main} tabIndex={-1}>
-      {page === 'home' ? <Home /> : page === 'free-play' ? <FreePlay /> : page === 'not-found' ? <section className="not-found"><p className="eyebrow">PAGE NOT FOUND</p><h1>Let’s find our way back.</h1><a className="button primary" href="#/home">Back home →</a></section> : <PracticePreview />}
+      {page === 'home' ? <Home /> : page === 'not-found' ? <section className="not-found"><p className="eyebrow">PAGE NOT FOUND</p><h1>Let’s find our way back.</h1><a className="button primary" href="#/home">Back home →</a></section> : <PracticePreview />}
     </main>
     <footer className="site-footer"><span>Auris Docta</span><span>A little listening, every day.</span></footer>
   </div>

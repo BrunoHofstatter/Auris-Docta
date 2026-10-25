@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { formatPitch } from '../music/pitch'
 import { pianoKeys } from './layout'
+import './piano.css'
 
 interface Props {
   low: number; high: number; disabled: boolean; showLabels: boolean

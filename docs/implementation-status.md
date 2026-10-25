@@ -1,6 +1,6 @@
 # Implementation status
 
-Last reconciled against the code and local tests: October 21, 2026.
+Last updated: October 25, 2026.
 
 ## Delivered
 
@@ -8,6 +8,7 @@ Last reconciled against the code and local tests: October 21, 2026.
 | --- | --- | --- |
 | Step 1 foundations | Complete | React/TypeScript/Vite app, responsive homepage, hash navigation/history/fallback, strict shared music model, exact timing, validation, and derived source groups |
 | Step 2 Free play | Implemented; real iPhone acceptance pending | Full desktop piano; mobile B3–C6 starting range and octave arrows; multitouch/mouse/keyboard playing; sustain, volume, labels, local preferences, loading/retry, and interruption cleanup |
+| Visual design | Dark studio selected and applied to Free play | Design C is now the normal `#/free-play` screen; unused alternatives, comparison routes, and the old Free play styling were removed. Other pages await their own redesign. |
 | Audio | Implemented for acoustic piano | Native Web Audio, independent note instances, 30 bundled Salamander samples, native-clock sequence playback/cancellation, tempo maps and instrument-specific sustain |
 | Documentation | Migrated and reconciled | All ten Google Docs tabs represented locally, original text archived, format/Free play/architecture current |
 | Deployment setup | Workflow configured | `.github/workflows/deploy.yml` tests, builds, and deploys `dist/`; successful live deployment is not established by this audit |
@@ -34,6 +35,8 @@ The model/parser and derived solution groups are implemented. A paste/import scr
 The Practice route remains an explicitly labeled preview. There is no durable exercise history, database, authentication, cloud sync, live AI connection, microphone transcription, or MIDI input.
 
 ## Verification
+
+On October 25, 2026, the Dark studio cleanup passed the 67 unit tests and production build. Edge checks verified the promoted Free play screen's audio PCM output, sustain/retrigger, settings, multitouch, octave limits, rotation, viewport fit, navigation/audio disposal, and removal of the comparison routes. Before/after screenshots were identical at 1366×900 desktop, 844×390 and 568×320 touch landscape, and 390×844 touch portrait. These browser checks do not establish physical iPhone acceptance.
 
 On October 21, 2026, the actual Git checkout's **67 tests in two test files** and TypeScript/production build passed. They cover music validation/time/pitches, source grouping, piano layout/sample selection, independent voices, sustain/retrigger, loading/retry, interruption/resume, scheduling/cancellation, and disposal.
 
