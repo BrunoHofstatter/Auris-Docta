@@ -1,0 +1,96 @@
+/* Home shares Dark studio tokens, with its own portrait-friendly composition. */
+.home-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.home-studio header { flex: none; }
+.home-studio .home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(200px, 1fr);
+  align-items: center;
+  gap: clamp(48px, 8vw, 120px);
+  width: min(100%, 980px);
+  flex: 1;
+  align-self: center;
+  padding: 40px 0 84px;
+}
+.home-studio .piano-study {
+  width: 100%;
+  padding: 48px 28px 24px;
+  border: 1px solid var(--studio-line);
+  border-radius: 180px 180px 14px 14px;
+  background: var(--studio-surface);
+  box-shadow: inset 0 1px 0 #272727, 0 40px 60px -40px #000;
+}
+.home-studio .roll-art { height: clamp(160px, 18vw, 240px); padding-top: 0; }
+.home-studio .roll-line { border-color: var(--studio-line); }
+.home-studio .note-bar {
+  background: #b4813c;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(242, 165, 65, .3);
+}
+.home-studio .note-e, .home-studio .note-f { background: var(--studio-accent); }
+.home-studio .keyboard-art {
+  height: clamp(88px, 9vw, 120px);
+  border: 1px solid #0e0e0e;
+  border-top: 8px solid #0e0e0e;
+  background: #0e0e0e;
+  border-radius: 0 0 5px 5px;
+}
+.home-studio .white-key {
+  border-right: 1px solid #a8a194;
+  background: linear-gradient(#d9d3c6, #f4f0e6 9%, #f4f0e6 91%, #e6e0d3);
+}
+.home-studio .white-key:last-child { border-right: 0; }
+.home-studio .white-key.tinted {
+  background: linear-gradient(#e2c9a0, #f9e1b6 30%, #ffd08a);
+  box-shadow: inset 0 -4px 0 var(--studio-accent);
+}
+.home-studio .black-key {
+  background: linear-gradient(#2e2e2e, #0d0d0d 76%);
+  box-shadow: inset 0 -5px #000;
+}
+.home-studio .home-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 280px;
+}
+.home-studio .home-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 24px;
+  border: 1px solid var(--studio-line);
+  border-radius: var(--studio-radius-pill);
+  background: var(--studio-surface);
+  color: var(--studio-ink);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+.home-studio .home-action:hover { border-color: #4a4a4a; background: var(--studio-raised); }
+.home-studio .home-action-primary { border-color: var(--studio-ink); background: var(--studio-ink); color: var(--studio-bg); }
+.home-studio .home-action-primary:hover { border-color: #fff; background: #fff; }
+.home-studio .home-lamp { width: 8px; height: 8px; border-radius: 50%; background: var(--studio-accent); box-shadow: 0 0 8px rgba(242, 165, 65, .7); }
+
+@media (max-width: 640px) {
+  .home-studio { --studio-gutter: 24px; --studio-gutter-y: 16px; --studio-brand-size: 14px; --studio-logo: 20px; }
+  .home-studio .home-layout { grid-template-columns: 1fr; align-content: center; justify-items: center; width: min(100%, 380px); gap: 32px; padding: 16px 0 24px; }
+  .home-studio .piano-study { padding: 32px 20px 20px; border-radius: 130px 130px 14px 14px; }
+  .home-studio .roll-art { height: clamp(120px, 33vw, 180px); }
+  .home-studio .keyboard-art { height: 88px; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-studio { --studio-gutter: 24px; --studio-gutter-y: 12px; gap: 12px; }
+  .home-studio .home-layout { grid-template-columns: minmax(0, 1.4fr) minmax(180px, 1fr); width: min(100%, 820px); gap: 40px; padding: 4px 0 16px; }
+  .home-studio .piano-study { padding: 20px 20px 14px; border-radius: 100px 100px 14px 14px; }
+  .home-studio .roll-art { height: clamp(70px, 24dvh, 110px); }
+  .home-studio .keyboard-art { height: 64px; }
+}

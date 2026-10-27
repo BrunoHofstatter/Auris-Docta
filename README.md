@@ -57,7 +57,7 @@ Free play is playable. Practice remains a labeled preview. Exercise generation, 
 - [Music format v1](docs/music-format.md): the agreed contract, readable JSON examples, timing, instruments/parts, strength, sustain, answer groups, defaults, and limits.
 - [Architecture and build status](docs/architecture.md): module boundaries, decisions, and next-step checks.
 - [Free play and audio](docs/free-play.md): implemented behavior, keyboard mapping, sample provenance, validation, and remaining iPhone checks.
-- [Dark studio design guide](design/design-guide.md): the selected Free play appearance, design tokens, and component styles.
+- [Dark studio design guide](design/design-guide.md): the selected Home and Free play appearance, design tokens, and component styles.
 - [C-major example](examples/c-major-scale.json): ascending scale and final chord.
 - [Deployment documentation](docs/deployment.md): the configured Pages workflow and choosing the actual Git checkout.
 - [Google Docs source archive](docs/archive/google-docs-2026-10-21.md): the complete original planning text, retained as historical provenance.

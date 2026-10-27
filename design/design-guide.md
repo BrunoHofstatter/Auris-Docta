@@ -1,9 +1,10 @@
 # Auris Docta design guide: "Dark studio"
 
-This guide describes the **Dark studio** visual direction used by Free play (`#/free-play`), originally selected as Design C. It records the screen's appearance, design tokens, and component styles for reuse.
+This guide describes the **Dark studio** visual direction used by Home (`#/home`) and Free play (`#/free-play`), originally selected as Design C. It records their appearance, design tokens, and component styles for reuse.
 
 - **Source of truth:** [`src/piano/free-play.css`](../src/piano/free-play.css) (the `.studio` scope and its components), [`src/piano/FreePlay.tsx`](../src/piano/FreePlay.tsx), and [`src/piano/piano.css`](../src/piano/piano.css) (shared keyboard geometry).
-- **Status:** Bruno picked this direction, and Free play now uses it as its normal interface. Other pages have not yet adopted it. Real iPhone acceptance is still pending.
+- **Home composition:** [`src/Home.tsx`](../src/Home.tsx) and [`src/home.css`](../src/home.css); shared brand and decorative illustration in `src/components/`.
+- **Status:** Bruno picked this direction, and Home and Free play now use it as their normal interface. Practice remains the earlier preview design. Real iPhone acceptance is still pending.
 - The code records the implemented design details.
 
 ---
@@ -102,7 +103,7 @@ Class names below are the current component names. Keep the same structure and v
 
 | Component | Recipe |
 |---|---|
-| **Brand link** (`.studio-brand`) | `<a href="#/home" aria-label="Auris Docta home">` + arch logo SVG (`currentColor`, ivory) + "Auris Docta". Min height 44px. |
+| **Brand link** (`.studio-brand`) | `<a href="#/home" aria-label="Auris Docta home">` + arch logo SVG (`currentColor`, ivory) + "Auris Docta". Shared by Home and Free play through `src/components/StudioBrand.tsx`. Min height 44px. |
 | **Round icon button** (`.studio-icon-button`) | 44×44, `border-radius: 50%`, 1px `--studio-line` border, transparent background, ivory icon. Hover/expanded: border `#4a4a4a`, background `--studio-raised`. Needs an `aria-label`. Used for Settings (sliders icon) and Help ("?"). |
 | **Popover** (`Disclosure` + `.studio-pop-panel`) | Opens below its trigger, aligned right; width `min(330px, 100vw − 24px)`; scrolls inside if taller than the viewport. `--studio-pop-bg`, 1px line, radius 14, padding 16. Closes on outside press or Escape (focus returns to the trigger). `aria-expanded` / `aria-controls` on the trigger. |
 | **Settings row** (`.studio-settings-row`) | Label left (11px, uppercase, .14em, muted) / control right, 12px gap. Rows stack with 12px gap. |
@@ -129,6 +130,12 @@ Class names below are the current component names. Keep the same structure and v
 ## 6. Implementation notes for agents
 
 - **Scoping.** All Dark studio CSS must stay inside a scope class so it can't leak into other pages, and the page background is set on `html` only while the screen is mounted (`document.documentElement.dataset.theme = 'studio'` with cleanup on unmount, and `html[data-theme='studio'] { background: #141414; color-scheme: dark; }`).
-- **Style boundaries.** `src/styles.css` still supplies the homepage and global defaults. The `.studio` scope resets heading and paragraph defaults for Free play. `src/piano/piano.css` supplies keyboard geometry and pointer styles; `src/piano/free-play.css` supplies the Dark studio appearance.
+- **Style boundaries.** `src/styles.css` supplies global defaults and the legacy Practice preview shell. The `.studio` scope resets heading and paragraph defaults. `src/piano/piano.css` supplies keyboard geometry and pointer styles; `src/piano/free-play.css` supplies the shared Dark studio tokens and Free play appearance. `src/home.css` keeps Home's composition and decorative illustration changes inside `.home-studio`.
 - **Accessibility.** Keep a real `h1` (it can be visually hidden), `aria-pressed` on toggles, `aria-expanded` on popover triggers, `role="status"`/`progressbar` while loading, `role="alert"` on errors, and a visible amber focus outline (`outline: 2px solid var(--studio-focus)`).
 - **Docs.** When a screen adopts this design, update the relevant docs (`docs/architecture.md`, `docs/implementation-status.md`). Emulator checks are not iPhone acceptance tests; say which you did.
+
+## 7. Home layout
+
+Home uses the same brand and tokens as Free play, with the existing decorative piano-roll illustration recolored in charcoal, ivory, and amber. On desktop the illustration sits on the left and a short, vertically centered menu sits on the right. The only visible menu text is **Free play** and **Practice**; there are no captions, introductory paragraphs, status badges, duplicated navigation, or footer. A visually hidden `h1` and labeled navigation preserve the page structure for assistive technology. Practice links to its existing preview, where its unavailable status remains explicit.
+
+The menu uses 54px-high pill links: ivory with an amber lamp for Free play, and a charcoal surface with an ivory label for Practice. Home starts no audio and its illustration is non-interactive. Portrait phones stack the illustration above the menu; short landscape screens keep two compact columns. Both layouts respect safe areas and keep the actions at least 44px high.

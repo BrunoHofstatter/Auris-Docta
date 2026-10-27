@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { formatPitch } from '../music/pitch'
 import { PianoKeyboard } from './PianoKeyboard'
 import { useFreePlayInstrument } from './useFreePlayInstrument'
+import Brand from '../components/StudioBrand'
 import type { FreePlayInstrument } from './useFreePlayInstrument'
 import './free-play.css'
 
@@ -14,18 +15,6 @@ const Icon = {
   right: <svg className="studio-icon" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7.5 4.5 13 10l-5.5 5.5" /></svg>,
   sliders: <svg className="studio-icon" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 6.5h14M3 13.5h14" /><circle cx="7.5" cy="6.5" r="2.2" fill="currentColor" stroke="none" /><circle cx="12.5" cy="13.5" r="2.2" fill="currentColor" stroke="none" /></svg>,
   rotate: <svg viewBox="0 0 56 56" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="19" y="6" width="18" height="32" rx="3.5" /><path d="M8 40.5c3 6 9.5 9.5 17 9.5h17" /><path d="m38 45.5 4.5 4.5-4.5 4.5" /></svg>,
-}
-
-function Logo() {
-  return <svg className="studio-logo" viewBox="0 0 36 36" aria-hidden="true">
-    <path d="M1.5 18a16.5 16.5 0 0 1 33 0v11a5.5 5.5 0 0 1-5.5 5.5H7A5.5 5.5 0 0 1 1.5 29z" fill="none" stroke="currentColor" strokeWidth="2" />
-    <rect x="7.5" y="16" width="3" height="11" fill="currentColor" /><rect x="13.5" y="10" width="3" height="17" fill="currentColor" />
-    <rect x="19.5" y="13" width="3" height="14" fill="currentColor" /><rect x="25.5" y="18" width="3" height="9" fill="currentColor" />
-  </svg>
-}
-
-function Brand() {
-  return <a className="studio-brand" href="#/home" aria-label="Auris Docta home"><Logo /><span>Auris Docta</span></a>
 }
 
 /** Small non-modal disclosure; closes on outside press or Escape. */
