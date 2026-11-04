@@ -4,7 +4,7 @@ This guide describes the **Dark studio** visual direction used by Home (`#/home`
 
 - **Source of truth:** [`src/piano/free-play.css`](../src/piano/free-play.css) (the `.studio` scope and its components), [`src/piano/FreePlay.tsx`](../src/piano/FreePlay.tsx), and [`src/piano/piano.css`](../src/piano/piano.css) (shared keyboard geometry).
 - **Home composition:** [`src/Home.tsx`](../src/Home.tsx) and [`src/home.css`](../src/home.css); shared brand and decorative illustration in `src/components/`.
-- **Status:** Bruno picked this direction, and Home and Free play now use it as their normal interface. Practice remains the earlier preview design. Real iPhone acceptance is still pending.
+- **Status:** Bruno picked this direction, and Home, Free play, and Practice now use it. Real iPhone acceptance is still pending.
 - The code records the implemented design details.
 
 ---
@@ -125,12 +125,12 @@ Class names below are the current component names. Keep the same structure and v
 - **Held:** white `linear-gradient(#e2c9a0, #f9e1b6 30%, #ffd08a)` + `inset 0 -5px 0 #f2a541`; black `linear-gradient(#6b4612, #c9862c 82%)` with a shorter 4px lip `#8f5c18` (it looks pressed).
 - **Sustaining (released, still sounding):** white `linear-gradient(#ddd4c2, #f6eedf 12%)` + only a thin bar `inset 0 -3px 0 rgba(242,165,65,.85)`; black `linear-gradient(#2e2617, #15110b 76%)` with an amber-brown lip `#8a5a1c`.
 - Labels: white-key `#8b8579`, black-key `#8f8a80`; on held keys `#6a3f05` / `#1c1406`.
-- Always reuse `PianoKeyboard` and the shared instrument hook ([`useFreePlayInstrument.ts`](../src/piano/useFreePlayInstrument.ts)). Change only the styling, never the geometry or input handling.
+- Reuse `PianoKeyboard` and the shared instrument hook ([`useFreePlayInstrument.ts`](../src/piano/useFreePlayInstrument.ts)). Preserve geometry and existing play-mode behavior. Practice extends the same component with silent deliberate-tap selection; it does not duplicate the live instrument logic.
 
 ## 6. Implementation notes for agents
 
 - **Scoping.** All Dark studio CSS must stay inside a scope class so it can't leak into other pages, and the page background is set on `html` only while the screen is mounted (`document.documentElement.dataset.theme = 'studio'` with cleanup on unmount, and `html[data-theme='studio'] { background: #141414; color-scheme: dark; }`).
-- **Style boundaries.** `src/styles.css` supplies global defaults and the legacy Practice preview shell. The `.studio` scope resets heading and paragraph defaults. `src/piano/piano.css` supplies keyboard geometry and pointer styles; `src/piano/free-play.css` supplies the shared Dark studio tokens and Free play appearance. `src/home.css` keeps Home's composition and decorative illustration changes inside `.home-studio`.
+- **Style boundaries.** `src/styles.css` supplies global defaults and the unknown-route shell. The `.studio` scope resets heading and paragraph defaults. `src/piano/piano.css` supplies keyboard geometry and pointer styles; `src/piano/free-play.css` supplies shared tokens and Free play appearance. `src/home.css` scopes Home to `.home-studio`; `src/practice/practice.css` scopes Practice to `.practice`.
 - **Accessibility.** Keep a real `h1` (it can be visually hidden), `aria-pressed` on toggles, `aria-expanded` on popover triggers, `role="status"`/`progressbar` while loading, `role="alert"` on errors, and a visible amber focus outline (`outline: 2px solid var(--studio-focus)`).
 - **Docs.** When a screen adopts this design, update the relevant docs (`docs/architecture.md`, `docs/implementation-status.md`). Emulator checks are not iPhone acceptance tests; say which you did.
 
@@ -139,3 +139,7 @@ Class names below are the current component names. Keep the same structure and v
 Home uses the same brand and tokens as Free play, with the existing decorative piano-roll illustration recolored in charcoal, ivory, and amber. On desktop the illustration sits on the left and a short, vertically centered menu sits on the right. The only visible menu text is **Free play** and **Practice**; there are no captions, introductory paragraphs, status badges, duplicated navigation, or footer. A visually hidden `h1` and labeled navigation preserve the page structure for assistive technology. Practice links to its existing preview, where its unavailable status remains explicit.
 
 The menu uses 54px-high pill links: ivory with an amber lamp for Free play, and a charcoal surface with an ivory label for Practice. Home starts no audio and its illustration is non-interactive. Portrait phones stack the illustration above the menu; short landscape screens keep two compact columns. Both layouts respect safe areas and keep the actions at least 44px high.
+
+## 8. Practice
+
+`src/practice/practice.css` extends the studio tokens within `.practice`. Setup uses numbered Content/Playback/Length sections, a dedicated chord-configuration view, and a clear Start action. The phone landscape workspace combines the compact home link and transport in one row, numbered answers/current selection above the piano, and answer/sound plus navigation/check actions below. Keep the original 48dvh keyboard rule. Selected answers use a muted blue to distinguish them from amber sounding keys; correction remains green/red/yellow with text symbols. Offscreen answer pitches sit below the corresponding arrow within its side column. Review replaces the entry keyboard with a scrollable horizontal roll and correction details. No extra group-menu button is used; right-click/long-press opens the agreed actions.

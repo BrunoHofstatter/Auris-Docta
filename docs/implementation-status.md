@@ -1,6 +1,6 @@
 # Implementation status
 
-Last updated: October 27, 2026.
+Last updated: November 4, 2026.
 
 ## Delivered
 
@@ -8,7 +8,11 @@ Last updated: October 27, 2026.
 | --- | --- | --- |
 | Step 1 foundations | Complete | React/TypeScript/Vite app, responsive homepage, hash navigation/history/fallback, strict shared music model, exact timing, validation, and derived source groups |
 | Step 2 Free play | Implemented; real iPhone acceptance pending | Full desktop piano; mobile B3–C6 starting range and octave arrows; multitouch/mouse/keyboard playing; sustain, volume, labels, local preferences, loading/retry, and interruption cleanup |
-| Visual design | Dark studio applied to Home and Free play | Home pairs the existing piano-roll illustration, recolored in ivory/amber, with only Free play and Practice menu buttons. Portrait phones stack the illustration above the menu. Free play retains the selected Design C interface; Practice remains the existing labeled preview. |
+| Visual design | Dark studio applied to Home, Free play, and Practice | Portrait-friendly setup/chord configuration; focused landscape phone workspace; scrollable solution review. Home and Free play retain their selected design. |
+| Step 3 generator/setup | Implemented; physical iPhone acceptance pending | Mixed categories, ten selectable qualities, major/natural-minor/None, strict key/range validation, category-first probabilities, Items/Seconds, BPM, inversions, exact successive spreads/direction, local setup preferences |
+| Step 4 answer editing | Implemented; physical iPhone acceptance pending | Silent key taps, typed notes, sound-piano switch, numbered group selection, right-click/long-press Insert before/Delete with Undo, offscreen selections, empty-group handling |
+| Step 5 feedback | Implemented as horizontal roll/aligned correction | Exact pitch/octave set comparison, missing/extra group alignment, green/red/yellow correction, source durations, labels, group boundaries, audio-clock playhead, seekable solution replay |
+| Step 6 basic workflow | Implemented for disposable exercises | Full sequence and step-by-step, wrong-answer retry, current-item reveal, correct-check Next/Finish, Try again/New exercise, playback pause/replay/seek/speed/item-range loops |
 | Audio | Implemented for acoustic piano | Native Web Audio, independent note instances, 30 bundled Salamander samples, native-clock sequence playback/cancellation, tempo maps and instrument-specific sustain |
 | Documentation | Migrated and reconciled | All ten Google Docs tabs represented locally, original text archived, format/Free play/architecture current |
 | Deployment setup | Workflow configured | `.github/workflows/deploy.yml` tests, builds, and deploys `dist/`; successful live deployment is not established by this audit |
@@ -17,14 +21,10 @@ See [architecture.md](architecture.md), [music-format.md](music-format.md), [fre
 
 The model can represent concurrent pitched instruments and separate piano hands. The installed sound engine only plays `acoustic-grand-piano` in A0–C8. Representing another sound is not the same as installing its samples or adding a selector.
 
-The model/parser and derived solution groups are implemented. A paste/import screen, key-aware warning workflow, answer editor, correctness checker, and grading UI are not implemented. Engine-level scheduling/cancellation is present; practice-level replay controls, speed controls, pause/resume, seeking, and looping remain planned.
+The model/parser, generator, answer editor, checker, alignment, grading UI, and practice playback are implemented. A paste/import screen and contextual import warnings remain later work. Source pitches stay hidden until submission/reveal, including keyboard highlights and readouts. Attempts are disposable, and Try again after review is marked Solution viewed. Loops reschedule at boundaries and are not guaranteed gapless. The roll scrolls manually; classic falling-note rendering and automatic following are not included.
 
 ## Not implemented
 
-- Step 3 basic configurable generators and exercise setup.
-- Step 4 manual answer groups, typed input, answer editing/checking, and the practice input-piano/sound-piano switch.
-- Step 5 piano roll, colored correction, sequence alignment, and synchronized seeking.
-- Step 6 complete listening/answering/retry workflow, step-by-step progression, and playback controls.
 - Steps 7–9 richer generators, import UI/batches, and AI generation instructions.
 - Step 10 final menus/settings beyond the current homepage/navigation and Free play preferences.
 - Step 11 additional timbres and independently selectable exploratory-piano sound.
@@ -32,9 +32,11 @@ The model/parser and derived solution groups are implemented. A paste/import scr
 - Step 13 session export/import and merge rules.
 - Step 14 installable PWA/service-worker/offline guarantees.
 
-The Practice route remains an explicitly labeled preview. There is no durable exercise history, database, authentication, cloud sync, live AI connection, microphone transcription, or MIDI input.
+Practice is available at `#/practice`. Leaving/reloading it discards the active exercise and attempts; only setup/audio preferences persist. There is no durable exercise history, database, authentication, cloud sync, live AI connection, microphone transcription, or MIDI input.
 
 ## Verification
+
+On November 4, 2026, basic practice passed **89 unit tests in three files** and the TypeScript/production build. New tests cover generator eligibility and octave boundaries, natural-minor/key exceptions, category probabilities, exact successive timing, duration rounding, repeated notes, typed/enharmonic answers, partial chords, inserted/missing sequence groups, seek offsets/speed, and independence of live/source audio. Edge checks exercise setup/chord configuration, invalid settings, audible generated playback, hidden source pitches, silent/no-drag answers, auditioning, typed entry, group insert/delete/Undo, submission/review, seeking, half-speed item-range loops, step reveal/correct-check transitions, rotation/state preservation, offscreen labels, touch long-press, and layouts at 844×390 and 568×320. The Free play regression script also passes, including audible PCM and independent multitouch. Screenshots were visually reviewed. Physical iPhone acceptance is still pending.
 
 On October 27, 2026, the Dark studio homepage redesign passed all 67 unit tests and the production build. Edge browser checks verified the two-link menu, illustration/menu placement, viewport fit, route history, theme cleanup, navigation focus, keyboard activation, and amber focus styling. Layout screenshots were checked at 1366×900 desktop, 768×1024 tablet, 390×844 and 320×568 portrait phones, and 844×390 and 568×320 touch landscape. The existing Free play browser checks also passed, including actual audio PCM, sustain/retrigger, multitouch, controls, octave bounds, rotation, audio disposal, and unknown routes. These are desktop browser and emulation checks, not physical iPhone acceptance.
 
@@ -52,4 +54,4 @@ The actual iPhone still needs checks for gesture unlock, sample loading/memory, 
 
 ## Immediate next work
 
-Address findings from real iPhone Free play acceptance when available, and plan the specifics of Step 3 from [music-and-exercises.md](music-and-exercises.md). Open generator choices are listed in [decisions.md](decisions.md); they have not been silently filled in by the documentation migration.
+Perform physical iPhone acceptance of Free play and Practice, gather Bruno's feedback on the chosen layout/defaults, and polish any findings. Steps 7–14 remain separate later work.

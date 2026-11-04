@@ -32,7 +32,7 @@ const INITIAL_AUDIO: PianoSnapshot = { status: 'idle', loaded: 0, total: 30, err
  * hardware keyboard mapping, and interruption cleanup, separate from the
  * Free play screen's visual components.
  */
-export function useFreePlayInstrument() {
+export function useFreePlayInstrument(options: { keyboardMode?: 'sound' | 'answer' | 'off'; onSelect?: (pitch: number) => void } = {}) {
   const [saved] = useState(preferences)
   const [octave, setOctave] = useState(saved.octave)
   const [volume, setVolumeState] = useState(saved.volume)
@@ -47,6 +47,7 @@ export function useFreePlayInstrument() {
   const ready = audio.status === 'ready'
 
   const stop = useCallback(() => { owners.current.clear(); engine.current?.stopAll() }, [])
+  const stopLive = useCallback(() => { owners.current.clear(); engine.current?.stopLive() }, [])
   const press = useCallback((pitch: number, owner: string) => {
     if (owners.current.has(owner)) return
     const id = engine.current?.noteOn(pitch)
@@ -60,7 +61,9 @@ export function useFreePlayInstrument() {
   const setVolume = useCallback((next: number) => { setVolumeState(next); engine.current?.setVolume(next) }, [])
   const setSustain = useCallback((on: boolean) => { engine.current?.setSustain(on) }, [])
   const tap = useCallback((pitch: number) => { engine.current?.tap(pitch) }, [])
-  const enable = useCallback(() => { void engine.current?.enable() }, [])
+  const enable = useCallback(() => engine.current?.enable() ?? Promise.resolve(), [])
+  const input = useRef(options)
+  useEffect(() => { input.current = options })
 
   useEffect(() => {
     const piano = new PianoEngine()
@@ -84,7 +87,7 @@ export function useFreePlayInstrument() {
       engine.current = null
     }
   }, [saved.volume, stop])
-  useEffect(() => { stop() }, [mobile, rotate, octave, stop])
+  useEffect(() => { stopLive() }, [mobile, rotate, octave, stopLive])
   useEffect(() => {
     try { localStorage.setItem('auris-free-play', JSON.stringify({ octave, volume, labels })) } catch { /* Playing remains available without storage. */ }
   }, [octave, volume, labels])
@@ -94,10 +97,15 @@ export function useFreePlayInstrument() {
       const target = event.target as HTMLElement
       if (target.closest('input, textarea, select, [contenteditable="true"]')) return
       if (event.code === 'Escape') { stop(); return }
+      if (input.current.keyboardMode === 'off') return
       const base = COMPUTER_KEYS[event.code]
       if (base === undefined) return
       event.preventDefault()
-      if (!event.repeat) press(base + (mobile ? (octave - 4) * 12 : 0), `computer-${event.code}`)
+      if (!event.repeat) {
+        const pitch = base + (mobile ? (octave - 4) * 12 : 0)
+        if (input.current.keyboardMode === 'answer') input.current.onSelect?.(pitch)
+        else press(pitch, `computer-${event.code}`)
+      }
     }
     const up = (event: KeyboardEvent) => release(`computer-${event.code}`)
     window.addEventListener('keydown', down)
@@ -105,7 +113,7 @@ export function useFreePlayInstrument() {
     return () => { window.removeEventListener('keydown', down); window.removeEventListener('keyup', up) }
   }, [mobile, octave, press, release, rotate, stop])
 
-  return { octave, setOctave, volume, setVolume, labels, setLabels, audio, mobile, rotate, low, high, ready, stop, press, release, tap, enable, setSustain }
+  return { octave, setOctave, volume, setVolume, labels, setLabels, audio, mobile, rotate, low, high, ready, stop, stopLive, press, release, tap, enable, setSustain, engine }
 }
 
 export type FreePlayInstrument = ReturnType<typeof useFreePlayInstrument>

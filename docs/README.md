@@ -19,7 +19,7 @@ This folder is the maintained source of truth for the project. All ten tabs of t
 | [C-major example](../examples/c-major-scale.json) | A complete format example used by the tests |
 | [Deployment](deployment.md) | The configured GitHub Pages workflow, build commands, and checkout layout |
 
-Step 1 is complete. Step 2 is implemented with actual iPhone Safari acceptance pending. Graded practice and the later library/import/statistics/PWA features are not implemented.
+Step 1 is complete. Free play and the basic practice flow (Steps 3–6) are implemented; actual iPhone Safari acceptance is pending. Library/import/statistics/PWA features remain later work. See [implementation status](implementation-status.md) for the exact delivered behavior and limitations.
 
 ## Complete product requirements by topic
 

@@ -26,4 +26,19 @@ Migrated from the “Test Cases” source tab and reconciled with the agreed for
 
 - Exercise audio playback alone must not reveal solution pitches. Submission or an explicit session-history View Synthesia action may reveal them; keep prior solution viewing distinguishable for attempt statistics.
 
+## 2. November 4 basic-generator and answer-interaction planning cases
+
+These are target cases for the relevant steps, not implemented/passed tests.
+
+- Enable Single note and Chords with several selected qualities: each category has probability 1/2, and chord qualities share the Chords probability equally. Do not require exact equal counts from a short random exercise.
+- In C major, permit C7's Bb and Dm7M's C# as seventh exceptions; reject D7 because F# is in its underlying triad. Apply the same structural rule to inversions. Ordinary single notes do not inherit chromatic exceptions.
+- A selected quality/category with no valid candidates produces a useful warning and requires settings adjustment. Do not silently drop it or expand the allowed octaves. An empty enabled Chords selection is invalid.
+- At 120 BPM, Successive Slow/Medium/Fast first-to-last spans are initially 375/125/15.625 ms; direction reverses pitch attack order without changing answer membership. All constituent notes release at the item boundary; the final item releases at the scheduled end.
+- Request 7 seconds at 100 BPM: show 12 items and actual duration 7.2 seconds. Changing BPM preserves requested seconds in Seconds mode and item count in Items mode.
+- Replaying preserves the same pitches. New generation is explicit. Audio interruption/rotation preserves the exercise and entered answers.
+- Silent answer taps select/deselect once; dragging does not paint answer selections. Switching to sound mode preserves the answer and permits auditioning. Offscreen answer selections appear under the correct octave arrow without exposing source pitches.
+- Select an earlier numbered group, edit its notes, and move forward: preserve group ordering and later answers. Insert before/delete from right-click or long-press, renumber correctly, and support Undo after deletion. No extra group-menu button is required.
+- Ignore an unused trailing empty draft on submit; flag an empty group between entered groups. Build the group window from entered answers, not hidden source totals.
+- Step-by-step omits the group window. A wrong check reveals no correction; explicit reveal shows only the current item and does not auto-advance.
+
 

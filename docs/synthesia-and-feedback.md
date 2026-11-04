@@ -1,6 +1,6 @@
 # Synthesia and feedback
 
-> **Status:** Piano-roll visualization, correction UI, and sequence-aligned grading remain planned. The shared model already derives source pitch groups, but that is not a complete grader or practice workflow.
+> **Status:** A horizontal time/pitch solution roll, green/red/yellow correction, sequence-aligned grading, and seekable replay are implemented for built-in practice. Physical iPhone acceptance is pending. Classic falling-note rendering, automatic roll following, durable saved attempts, and session-history actions remain later work.
 
 Migrated from the “Synthesia & Feedback” source tab and reconciled with the agreed format and implemented app. [Documentation index](README.md) · [Original source snapshot](archive/google-docs-2026-10-21.md)
 
@@ -56,6 +56,6 @@ Build a piano-roll renderer from the shared event model. This is a first-class f
 
 - Provide separate measures of note-level accuracy and whole-group/whole-exercise correctness. A partially correct chord may contain correct notes while the chord as a whole is incorrect. Exact formulas, denominators, and additional statistics will be specified in the statistics step; colored correction remains the immediate feedback.
 
-- Support redoing saved exercises. Keep earlier submitted answers and results; each redo creates a separate attempt rather than overwriting the original. Distinguish first attempts, retries, and attempts made after viewing the solution.
+- The current disposable flow supports Try again on the same exercise and New exercise with the same configuration. A retry after review is marked Solution viewed. There is no durable attempt history yet. For future saved exercises, keep distinct attempts and earlier submitted results rather than overwriting the original; that persistence belongs to Step 12.
 
 

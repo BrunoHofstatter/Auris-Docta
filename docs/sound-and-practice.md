@@ -1,6 +1,6 @@
 # Sound and practice
 
-> **Status:** Free play and its acoustic-piano engine are implemented; graded practice, manual answer editing, the practice input/sound switch, seeking, and looping remain planned. See [free-play.md](free-play.md) for the implemented controls.
+> **Status:** Free play and basic graded practice are implemented, including manual editing, the input/sound switch, seeking, speed, and item-range looping. Physical iPhone acceptance remains pending. Session/attempt persistence and additional instruments remain later work. See [free-play.md](free-play.md) for Free play controls.
 
 Migrated from the “Sound & Practice” source tab and reconciled with the agreed format and implemented app. [Documentation index](README.md) · [Original source snapshot](archive/google-docs-2026-10-21.md)
 
@@ -54,9 +54,13 @@ Design primarily for phone use. Menu, setup, sessions, favorites, and statistics
 
 - Tapping a key toggles whether that pitch belongs to the current answer group; tapping again deselects it.
 
+- Answer selection is silent and uses deliberate taps, not drag/glide selection. Sound-piano mode retains normal auditioning and gliding. Answer selection, currently held sounding keys, and released/sustaining sounds need distinct visual states.
+
 - Multiple simultaneously selected keys form a chord; a single selected key is a single note. No separate chord-entry screen is needed.
 
 - Selected notes have a clearly visible highlight and a summary such as “C4 + E4 + G4”.
+
+- Selected answer pitches outside the visible keyboard window are labeled below the corresponding octave arrow: lower pitches under the left arrow and higher pitches under the right. Use explicit pitch/octave labels such as C1. Layout must accommodate several labels without squeezing the keys; source-solution pitches must never enter these labels.
 
 - Provide an explicit switch between input-piano mode and sound-piano mode. Input mode toggles notes in the current answer group; sound mode plays notes without changing the answer. Preserve selected notes and the current group when switching. Reuse the Free play keyboard and audio engine.
 
@@ -74,6 +78,10 @@ The fundamental answer unit is a logical group of one or more pitches. A basic g
 
 - Click Previous to revisit and change earlier groups; support going forward again.
 
+- In full-sequence mode, show entered answer groups as numbered entries in a compact scrollable window, with more space available on desktop. Selecting an entry makes it current and restores its notes on the keyboard. The last entry is the furthest-created group, not necessarily the current group while editing an earlier one. Highlight and keep the current entry visible. Do not prepopulate entries from the hidden source-group count.
+
+- Next moves to the next existing group, or creates a new empty group when used from the last group. Right-click on desktop or long-press on mobile opens Insert before / Delete for the targeted group. Renumber after insert/delete. Deletion offers Undo rather than a confirmation dialog. No additional selected-group menu button is wanted for this personal app. Step-by-step mode omits this group window.
+
 - Allow inserting and deleting groups to correct miscounted note/chord events.
 
 - Permit successive one-note groups, multi-note chord groups, and mixtures of both in the same answer.
@@ -84,7 +92,9 @@ The fundamental answer unit is a logical group of one or more pitches. A basic g
 
 - Before submitting, allow review of an abstract summary of entered groups without revealing correct source notes.
 
-- Prevent submission of accidental empty groups or handle them clearly.
+- Ignore one unused trailing empty draft on submission. Flag empty groups between answers so they can be completed or deleted rather than silently shifting the sequence.
+
+- Playing source audio must not expose its pitches through keyboard highlights, live readouts, labels, or automatic window positioning. Starting keyboard position is based on the configured register, never the hidden answer. Audio interruption preserves the answer and generated exercise.
 
 ## 5. Free play and the practice sound piano
 
@@ -95,6 +105,8 @@ Free play is a permanent, useful app feature as well as the development/testing 
 - In practice, provide an obvious input-piano/sound-piano switch. Sound mode behaves as an exploratory piano: it plays notes without selecting, deselecting, or otherwise editing the answer.
 
 - Switching modes preserves the current answer group, selected pitches, and previous answer groups. Returning to input mode resumes editing where the user left off.
+
+- Changing sound/answer mode or keyboard octaves stops exploratory voices without cancelling scheduled exercise audio. Stop, Escape, page hiding, or an interruption stops/pauses playback without deleting the exercise or answers. Audio readiness errors offer Retry/Resume.
 
 - This sound piano is a core feature, making practice possible without the physical piano and providing a general way to compare pitches.
 

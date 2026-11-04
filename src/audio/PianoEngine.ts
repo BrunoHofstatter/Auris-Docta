@@ -23,6 +23,7 @@ interface EngineOptions {
   createContext?: () => AudioContext
   loadSamples?: (context: AudioContext, progress: (loaded: number) => void, signal: AbortSignal) => Promise<Map<number, AudioBuffer>>
 }
+export interface PlaybackHandle { cancel: () => void; position: () => number; duration: number }
 
 async function loadSamples(context: AudioContext, progress: (loaded: number) => void, signal: AbortSignal) {
   const queue = [...PIANO_SAMPLES]
@@ -179,7 +180,7 @@ export class PianoEngine {
   }
 
   noteOn(pitch: number, strength = DEFAULT_STRENGTH): string | undefined {
-    if (!isPianoPitch(pitch) || !Number.isFinite(strength) || strength <= 0 || strength > 1 || this.status !== 'ready' || this.context?.state !== 'running' || this.voices.size >= 128) return
+    if (!isPianoPitch(pitch) || !Number.isFinite(strength) || strength <= 0 || strength > 1 || this.status !== 'ready' || this.context?.state !== 'running' || [...this.voices.values()].filter(v => !v.scheduled).length >= 128) return
     const voice = this.createVoice(pitch, strength, this.context.currentTime, false)
     this.emit()
     return voice.id
@@ -201,7 +202,7 @@ export class PianoEngine {
     this.release(voice, this.context.currentTime + 0.25)
   }
 
-  private createVoice(pitch: number, strength: number, at: number, scheduled: boolean): Voice {
+  private createVoice(pitch: number, strength: number, at: number, scheduled: boolean, offset = 0): Voice {
     const sample = nearestSample(pitch)
     const buffer = this.buffers.get(sample.pitch)
     if (!buffer) throw new Error('The piano samples are not ready.')
@@ -221,7 +222,8 @@ export class PianoEngine {
       if (!voice.held) this.voices.delete(voice.id)
       this.emit()
     }
-    source.start(at)
+    if (offset > 0) source.start(at, offset * source.playbackRate.value)
+    else source.start(at)
     return voice
   }
 
@@ -234,15 +236,26 @@ export class PianoEngine {
 
   /** Schedule source data against the audio clock, never JavaScript note timers. */
   play(document: MusicDocument): () => void {
+    return this.playRange(document).cancel
+  }
+
+  /** Seek reconstructs sounding notes/pedal from the shared plan. Speed changes time, not pitch. */
+  playRange(document: MusicDocument, options: { from?: number; to?: number; rate?: number } = {}): PlaybackHandle {
     if (this.status !== 'ready' || this.context?.state !== 'running') throw new Error('Enable the piano before playback.')
     const plan = planPlayback(document)
+    const from = options.from ?? 0, to = options.to ?? plan.durationSeconds, rate = options.rate ?? 1
+    if (![from, to, rate].every(Number.isFinite) || from < 0 || to <= from || to > plan.durationSeconds + 0.000001 || rate < 0.25 || rate > 2) throw new Error('Invalid playback range or speed.')
     const start = this.context.currentTime + 0.05
-    const voices = plan.notes.map(note => {
-      const voice = this.createVoice(note.noteNumber, note.strength, start + note.startSeconds, true)
-      this.release(voice, start + note.soundReleaseSeconds)
+    const voices = plan.notes.filter(note => note.startSeconds < to && note.soundReleaseSeconds > from).map(note => {
+      const voice = this.createVoice(note.noteNumber, note.strength, start + Math.max(0, note.startSeconds - from) / rate, true, Math.max(0, from - note.startSeconds))
+      this.release(voice, start + (Math.min(to, note.soundReleaseSeconds) - from) / rate)
       return voice
     })
-    return () => { voices.forEach(voice => this.stopVoice(voice)); this.emit() }
+    return {
+      cancel: () => { voices.forEach(voice => this.stopVoice(voice)); this.emit() },
+      position: () => Math.min(to, from + Math.max(0, this.context!.currentTime - start) * rate),
+      duration: (to - from) / rate,
+    }
   }
 
   private stopVoice(voice: Voice) {
@@ -257,6 +270,13 @@ export class PianoEngine {
 
   stopAll() {
     this.voices.forEach(voice => this.stopVoice(voice))
+    this.sustain = false
+    this.emit()
+  }
+
+  /** Changing the exploratory keyboard must not cancel source-sequence playback. */
+  stopLive() {
+    this.voices.forEach(voice => { if (!voice.scheduled) this.stopVoice(voice) })
     this.sustain = false
     this.emit()
   }

@@ -1,12 +1,12 @@
 # Build plan and decisions
 
-> **Status:** Step 1 is complete. Step 2 is implemented with real-device acceptance pending. Steps 3–14 remain planned. Plan each step, implement it, and polish it; mobile work belongs within each step.
+> **Status:** Step 1 is complete. Free play and basic practice (Steps 2–6) are implemented, with real-device acceptance pending. Steps 7–14 remain planned. Plan each step, implement it, and polish it; mobile work belongs within each step.
 
 Migrated from the “Build Plan & Decisions” source tab and reconciled with the agreed format and implemented app. [Documentation index](README.md) · [Original source snapshot](archive/google-docs-2026-10-21.md)
 
 ## 1. Incremental build order and planning approach
 
-The implementation order below remains incremental: plan a step’s specifics, implement it, and polish it. Design can look ahead across connected steps before coding. Foundations and Free play are implemented; the next unimplemented work starts with basic exercises and their listening, answering, and feedback flow (steps 3–6). Phone layouts and interactions are planned and implemented within each relevant step, rather than after that flow. This does not require implementing steps 3–6 together.
+The implementation order below remains incremental. Following the November 4 planning, Bruno authorized implementing the connected basic practice flow together: generator/setup, answering, feedback, and playback. Those Steps 3–6 now have a working implementation. Phone layouts and interactions are developed within each feature; physical iPhone acceptance remains separate from desktop browser emulation.
 
 ### Step 1 — Foundations, shared music format, and basic app layout
 
@@ -22,25 +22,25 @@ Build a permanent Free play screen where tapping keys plays the selected instrum
 
 ### Step 3 — Basic practice exercises
 
-**Implementation status: planned.**
+**Implementation status: implemented; real iPhone acceptance pending.** Configurable generator, ten individual chord qualities, key/range validation, equal category/quality probabilities, exact successive timing, linked quantity input, local setup preferences, and Dark studio setup/workspace are built.
 
 Introduce the configurable basic generator described in [Music and exercises](music-and-exercises.md), section 4: selected mixtures of notes, octaves, random pairs, triads, and seventh chords; octave ranges; key or none; one BPM value; linked item count/duration; instrument; simultaneous/successive playback; and root-position/random inversions. Single notes and major/minor triads remain useful first implementation slices. Complete the agreed basic scope incrementally; richer musical generation comes later.
 
 ### Step 4 — Answer input, editing, and basic checking
 
-**Implementation status: planned.**
+**Implementation status: implemented; real iPhone acceptance pending.** Silent piano/typed entry, numbered group selection/editing, Insert before/Delete through right-click/long-press, Undo, independent sound-piano mode, and exact pitch/octave checking are built.
 
 Implement the keyboard, typed input, simultaneous note groups, group navigation/editing, and simple note/chord comparison. Add the core input-piano/sound-piano switch so experimenting with sound does not modify answers.
 
 ### Step 5 — Synthesia and correction feedback
 
-**Implementation status: planned.**
+**Implementation status: implemented as a horizontal time/pitch piano roll and aligned correction; real iPhone acceptance pending.** The scrollable solution roll shows source duration, group boundaries, labels, and an audio-clock playhead. Green/red/yellow correction and missing/extra-group alignment are built. A classic falling-note renderer and automatic roll following are not included.
 
 Build the animated piano roll and green/red/yellow feedback, including sequence alignment for missing/extra groups. Include synchronized seeking forward and backward and explicit solution visibility rules.
 
 ### Step 6 — Complete practice workflow and playback controls
 
-**Implementation status: planned.**
+**Implementation status: implemented for disposable built-in exercises; real iPhone acceptance pending.** Full-sequence and step-by-step flows, explicit reveal, retry/new generation, Play/Replay/Pause/Stop, seeking, speed, and item-range looping are built. Loops reschedule at each boundary and are not promised gapless. Durable attempts/history/statistics remain Step 12.
 
 Connect listening, answering, submission, review, and retry; finish replay, speed, looping, and navigation. Include full-sequence practice and step-by-step practice that advances only after the current item is correct. Practice becomes usable progressively through steps 3–5. Detailed history/statistics recording is not required here.
 

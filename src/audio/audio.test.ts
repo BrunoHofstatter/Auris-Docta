@@ -54,6 +54,40 @@ describe('sample and keyboard coverage', () => {
 })
 
 describe('independent piano voices', () => {
+  it('seeks into held notes with a sample offset and scales timing without changing pitch', async () => {
+    const h = harness(); await h.engine.enable()
+    const playback = h.engine.playRange(fixture(), { from: 4.5, to: 5.5, rate: 0.5 })
+    const plan = planPlayback(fixture())
+    const sounding = plan.notes.filter(n => n.startSeconds < 5.5 && n.soundReleaseSeconds > 4.5)
+    expect(h.sources.slice(1)).toHaveLength(sounding.length)
+    sounding.forEach((note, index) => {
+      const offset = Math.max(0, 4.5 - note.startSeconds)
+      const voice = h.sources[index + 1]
+      expect(voice.start).toHaveBeenCalledWith(10.05, offset * voice.playbackRate.value)
+    })
+    expect(playback.duration).toBe(2)
+    h.context.currentTime = 10.55
+    expect(playback.position()).toBeCloseTo(4.75)
+    playback.cancel(); h.engine.dispose()
+  })
+  it('rejects invalid transport ranges before creating voices', async () => {
+    const h = harness(); await h.engine.enable()
+    expect(() => h.engine.playRange(fixture(), { from: -1 })).toThrow('Invalid playback')
+    expect(() => h.engine.playRange(fixture(), { from: 3, to: 2 })).toThrow('Invalid playback')
+    expect(() => h.engine.playRange(fixture(), { rate: NaN })).toThrow('Invalid playback')
+    h.engine.dispose()
+  })
+  it('keeps scheduled source audio alive while stopping exploratory notes', async () => {
+    const h = harness(); await h.engine.enable()
+    const playback = h.engine.playRange(fixture())
+    const sequence = h.sources.slice(1)
+    h.engine.noteOn(60)
+    const before = sequence.map(voice => voice.stop.mock.calls.length)
+    h.engine.stopLive()
+    expect(h.engine.snapshot().pressed).toEqual([])
+    expect(sequence.map(voice => voice.stop.mock.calls.length)).toEqual(before)
+    playback.cancel(); h.engine.dispose()
+  })
   it('creates/resumes audio synchronously from enable and stays silent until playing', async () => {
     const h = harness()
     expect(h.engine.noteOn(60)).toBeUndefined()

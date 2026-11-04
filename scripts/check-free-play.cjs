@@ -92,7 +92,7 @@ const origin = process.env.APP_URL || 'http://127.0.0.1:5173';
     assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'studio');
     await page.getByRole('heading', { name: 'Auris Docta home' }).waitFor({ state: 'attached' });
     await page.getByRole('link', { name: 'Practice', exact: true }).click();
-    await page.getByText('Practice is not available yet.', { exact: false }).waitFor();
+    await page.getByRole('heading', { name: 'Set up your listening', exact: true }).waitFor();
     await page.goto(origin + '/#/not-a-page');
     await page.getByText('PAGE NOT FOUND', { exact: true }).waitFor();
     assert.equal(await page.locator('.studio').count(), 0);

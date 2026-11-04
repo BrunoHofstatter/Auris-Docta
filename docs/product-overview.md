@@ -1,6 +1,6 @@
 # Product overview
 
-> **Status:** Foundations are complete and Free play is implemented; actual iPhone acceptance is pending. The remaining app behavior below is agreed product scope, not a claim that it is already built.
+> **Status:** Foundations, Free play, and basic graded practice are implemented; actual iPhone acceptance is pending. Later library/import/statistics/PWA behavior below is product scope, not a claim that it is already built.
 
 Migrated from the “Overview” source tab and reconciled with the agreed format and implemented app. [Documentation index](README.md) · [Original source snapshot](archive/google-docs-2026-10-21.md)
 
@@ -16,7 +16,7 @@ The aim is practical transcription by ear: listen, experiment on the physical pi
 
 Product principle: deterministic playback and grading should be free, exact, and reliable. AI is optional for composing interesting longer exercises, but should not be required to synthesize the audio or validate simple answers.
 
-Status: Step 1 foundations and the version 1 music model are implemented. Step 2 Free play is implemented; actual iPhone Safari acceptance remains pending. Practice and later features remain planned. Items labeled “Later/optional” or “Recommendation” are not automatically requirements for the next build step.
+Status: Step 1 foundations, the version 1 music model, Free play, and basic practice (Steps 3–6) are implemented; actual iPhone Safari acceptance remains pending. Later features remain planned. Items labeled “Later/optional” or “Recommendation” are not automatically requirements for the next build step.
 
 ## 2. Agreed product boundaries
 
