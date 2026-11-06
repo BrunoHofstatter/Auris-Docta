@@ -26,6 +26,7 @@ This records the current decisions after the Google Docs planning and the Step 1
 - Full-sequence answers use a scrollable numbered group window. Selecting an earlier group makes it current; Next visits an existing next group or appends from the last. Right-click/long-press opens Insert before / Delete, with renumbering and Undo for deletion. No extra selected-group menu button. Ignore an unused trailing empty draft on submit; flag empty groups in the middle.
 - Step-by-step has no group window. Wrong checks report incorrect without note corrections. Reveal shows only the current solution and does not advance; checking the correct answer remains required. Replay preserves generated notes; new generation is a distinct action; setup changes do not silently replace an active exercise.
 - Final implementation choices: initial Single note, octaves 4/5, None, 60 BPM, 10 items, Simultaneous, Full sequence; remember the last setup locally. Start/Next do not auto-play. Correct step checks wait for Next/Finish. The generator permits at most 200 items; answer editing permits 400 groups. Use the existing Dark studio tokens, a portrait-friendly setup, and landscape phone workspace. The current exercise is disposable on leaving/reloading Practice.
+- November 4 correction rework: Synthesia-style falling notes with a full 88-key piano even on mobile landscape, minimal margins, pitch/octave symbols on bars, and audio-clock synchronized playback-bar seeking. Green = correct; yellow = missed source note with otherwise identical styling; red = user's wrong answer, with stripes/outline and ×. Replay sounds the source only; red timing is illustrative because answers have no performance timestamps. Fullscreen shows the visualization and compact playback strip, using native fullscreen or an in-page fallback. Keep existing alignment; further alignment refinements are low priority for known-count generated exercises.
 - Sessions can be continued freely across breaks/days. One imported batch forms one session. Redos create separate attempts. Favorites can survive deletion of the original session.
 - Customizable statistics and arbitrary manual session selection are agreed future features. Early test practices may have no statistics and can be discarded.
 - Manual cross-device export/import is planned; automatic sync is not required. Its session/merge schema is separate from the settled musical format.
@@ -37,7 +38,7 @@ This records the current decisions after the Google Docs planning and the Step 1
 - Physical iPhone acceptance and any resulting audio/touch/layout polish, including the successive spreads and repeated-item separation.
 - Further chord qualities and presets if actual practice creates a need.
 - Whether/how to select or mix multiple exercise instruments once additional sounds exist.
-- Optional visualization polish such as classic falling notes and automatic roll following. The current roll scrolls manually and loop boundaries are not guaranteed gapless.
+- Real-device correction/fullscreen acceptance and any resulting label/touch polish. More sophisticated alignment for ambiguous reordered or repeated groups can wait for a practical need. Loop boundaries are not guaranteed gapless.
 
 ### Later musical generation/import
 

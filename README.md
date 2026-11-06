@@ -54,7 +54,7 @@ Free play and built-in practice are playable. Real iPhone Safari latency, audio 
 
 Open `#/practice` to configure mixed single notes, octaves, random pairs, and ten individually selectable chord qualities. Setup includes numbered octaves, major/natural-minor keys or None, BPM, Items/Seconds, successive speeds/direction, inversions, and full-sequence/step-by-step modes. The last setup is remembered locally.
 
-The Dark studio workspace provides playback, replay, pause, seeking, speed and item-range loops; a silent answer piano and an independent sound-piano mode; typed notes; numbered answer-group editing with right-click/long-press Insert before/Delete and Undo; and explicit solution reveal. Submission shows sequence-aligned green/red/yellow correction and a seekable piano roll. Wrong step-by-step checks stay on the item without revealing pitches; correct checks wait for Next.
+The Dark studio workspace provides playback, replay, pause, seeking, speed and item-range loops; a silent answer piano and an independent sound-piano mode; typed notes; numbered answer-group editing with right-click/long-press Insert before/Delete and Undo; and explicit solution reveal. Submission shows a Synthesia-style falling-note correction over the full 88-key piano, including mobile landscape, with green/yellow source notes and striped red wrong answers, pitch labels, note inspection, synchronized seeking, and fullscreen. Wrong step-by-step checks stay on the item without revealing pitches; correct checks wait for Next.
 
 Exercise/answer state survives rotation, audio interruptions, and visits to setup within the current page. Refreshing/leaving Practice discards the active exercise and attempts. Durable history, favorites, statistics, import, additional instruments, and PWA installation/offline caching remain later work.
 
@@ -79,7 +79,7 @@ npm test
 npm run build
 ```
 
-For optional Edge browser checks, start the dev server and run `node scripts/check-free-play.cjs` and `node scripts/check-practice.cjs` with an existing Playwright installation available. `PLAYWRIGHT_MODULE` can point to that installation's module path, and `APP_URL` can override the default `http://127.0.0.1:5173`. The scripts write screenshots into ignored `artifacts/`.
+For optional Edge browser checks, start the dev server and run `node scripts/check-free-play.cjs`, `node scripts/check-practice.cjs`, and `node scripts/check-correction.cjs` with an existing Playwright installation available. `PLAYWRIGHT_MODULE` can point to that installation's module path, and `APP_URL` can override the default `http://127.0.0.1:5173`. The scripts write screenshots into ignored `artifacts/`.
 
 Unit tests cover both the musical model and the piano engine. Browser checks have verified actual Web Audio output in Edge, three-finger chords with independent release, sustain/retrigger, controls, octave limits, orientation, and landscape layouts down to 568×320. Windows WebKit layout and unsupported-audio handling were checked separately; that test build has no Web Audio implementation. No real iPhone test is claimed.
 

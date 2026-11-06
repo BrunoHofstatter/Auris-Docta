@@ -1,6 +1,6 @@
 # Synthesia and feedback
 
-> **Status:** A horizontal time/pitch solution roll, green/red/yellow correction, sequence-aligned grading, and seekable replay are implemented for built-in practice. Physical iPhone acceptance is pending. Classic falling-note rendering, automatic roll following, durable saved attempts, and session-history actions remain later work.
+> **Status:** A Synthesia-style falling-note correction view, full 88-key piano on desktop and mobile landscape, synchronized seeking, fullscreen, and green/red/yellow feedback are implemented for built-in practice. Physical iPhone acceptance is pending. Durable saved attempts and session-history actions remain later work.
 
 Migrated from the “Synthesia & Feedback” source tab and reconciled with the agreed format and implemented app. [Documentation index](README.md) · [Original source snapshot](archive/google-docs-2026-10-21.md)
 
@@ -10,29 +10,37 @@ Build a piano-roll renderer from the shared event model. This is a first-class f
 
 ### Practice playback
 
-- Display a horizontal or vertical time/pitch piano roll (a classic falling-note Synthesia presentation is desirable), linked to a virtual piano keyboard.
+- Display vertical falling notes over the entire 88-key A0–C8 keyboard, including mobile landscape. Use minimal margins and no horizontal pitch scrolling. The correction keyboard is a visual playback reference; the answer/sound keyboards retain their existing mobile range navigation.
 
 - Notes animate toward the keyboard as music plays, showing pitch positions, length, and simultaneity. During an unanswered practice attempt, hide the pitch-bearing source visualization until submission or an explicit solution-view action. A harmless playback progress bar can be visible. Session-history Synthesia is an intentional solution-view action; preserve this distinction for future statistics.
 
 - Controls can replay the full phrase, slow it, and loop parts of it. A selected loop is useful after making a mistake.
 
+- The playback bar is also the visualization timeline. Seeking forward or backward immediately repositions the notes while playing or paused. The leading edge reaches the key at the source attack; the bar length represents the source key-down duration. The keyboard highlights the source pitches at the selected position.
+
+- Fullscreen contains just the falling-note view, keyboard, and compact playback strip with play/pause, replay, Stop, seeking, time, and exit fullscreen. Use native element fullscreen when available and an in-page viewport-filling fallback otherwise. Exiting preserves the exercise, result, and playback position; Escape exits the fallback.
+
 ### Feedback / correction
 
 - Reveal the full correct notes after submission, or when the user intentionally chooses View Synthesia from session history. Session access is unrestricted; record prior solution viewing when attempt history is implemented.
 
-- Overlay the submitted notes for side-by-side comparison, keeping relative group order aligned.
+- Overlay submitted pitches at their aligned source groups. Audio always plays the source solution; wrong answer notes are silent visual comparisons.
 
 - Colors agreed: green = correctly identified note, red = incorrect extra/substituted note, yellow = correct note missed by the user.
 
-- Display note labels, chords, and group boundaries in a way that works at mobile landscape sizes; include a color legend.
+- Green and yellow bars have identical styling apart from color. Red bars have a striped fill, contrasting outline, and × beside their pitch name to distinguish the user's wrong answer from source notes. Include a compact color legend outside fullscreen.
 
-- Chords show multiple vertically stacked note bars at the same time.
+- Write pitch symbols and octave numbers on note bars, preserving source spelling and using ♯/♭. Labels may run vertically on narrow bars. Tapping/clicking a visible bar, or activating it with Enter/Space, opens a readable note detail overlay. An explicitly revealed, ungraded solution uses neutral amber bars instead of awarding green matches.
 
-- Offer replay of the whole solution and optionally only the incorrectly identified section; allow inspecting a group.
+- Chords show parallel bars in the corresponding pitch lanes; simultaneous attacks reach the keyboard together. Successive chord notes preserve their independent source attack/release times. Subtle numbered horizontal boundaries identify source groups.
+
+- Manual answers contain no performance timing. Red notes associated with a source group use its overall attack-to-release span for illustration, not a claim about the user's timing. Entire extra answer groups use short markers just before the next aligned source group, or at the end of the phrase; leading extras start at zero. Note details identify red timing as illustrative.
+
+- Offer replay, existing speed/item-range loops, and note inspection. Automatic replay of just the incorrect section remains optional future work.
 
 - The roll displays durations as supplied for the original sound, but does NOT score rhythm or timing of the user's manual answer.
 
-- For inserted/deleted answer groups, ideally align the sequences rather than naïvely comparing row N to row N and making every later group appear wrong (recommended implementation enhancement).
+- Keep the existing order-preserving alignment for inserted/deleted answer groups. Refining ambiguous swaps/repeated-note tie rules is deferred until actual practice warrants it; basic generated exercises expose the configured item count, so extra/missing groups are not the current priority. Never treat sequence answers as an unordered bag of pitches.
 
 - Do not reveal the solution merely because exercise audio is played. Reveal it after Submit or an explicit View Synthesia/solution action.
 

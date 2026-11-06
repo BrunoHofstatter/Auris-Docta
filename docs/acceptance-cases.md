@@ -26,6 +26,10 @@ Migrated from the “Test Cases” source tab and reconciled with the agreed for
 
 - Exercise audio playback alone must not reveal solution pitches. Submission or an explicit session-history View Synthesia action may reveal them; keep prior solution viewing distinguishable for attempt statistics.
 
+- Correction shows all 88 piano keys on desktop and mobile landscape. Source bars fall to their keys in sync with audio; forward/backward seeking repositions them immediately, including while paused. Green/yellow bars differ only by color. Wrong answer bars are red with stripes/outline and ×, have pitch labels, and never add sounds to source playback. Tapping a bar shows a readable detail.
+
+- Fullscreen contains the falling notes, keyboard, and compact transport only. Native fullscreen exit and in-page fallback/Escape preserve the result and playback position. Keep controls usable and the complete keyboard visible at 844×390 and 568×320; actual iPhone browser chrome/safe areas require physical-device acceptance.
+
 ## 2. November 4 basic-generator and answer-interaction planning cases
 
 These are target cases for the relevant steps, not implemented/passed tests.

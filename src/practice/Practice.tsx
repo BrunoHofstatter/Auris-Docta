@@ -166,9 +166,9 @@ export default function Practice() {
       <Setup settings={settings} onChange={setSettings} onStart={begin} active={!!exercise} onReturn={() => setSetup(false)} />
       {message && <p className="practice-error" role="alert">{message}</p>}
     </> : inst.rotate ? <div className="practice-rotate"><span aria-hidden="true">↻</span><h2>Rotate to landscape to practice</h2><p>Your exercise and answer stay here.</p></div> : <>
-      {toolbar}
+      {!result && toolbar}
       {result && exercise ? <>
-        <Review document={exercise.document} rows={result.rows} position={playback.position} revealed={result.revealed} assisted={assisted} onSeek={playback.seek} />
+        <Review document={exercise.document} rows={result.rows} position={playback.position} revealed={result.revealed} assisted={assisted} transport={toolbar} />
         <footer className="practice-footer"><button className="practice-button" onClick={() => { reset(); setAssisted(true) }}>Try again</button><button className="practice-button is-primary" onClick={newExercise}>New exercise →</button></footer>
       </> : <>
         <div className="practice-answer-area">
@@ -201,7 +201,7 @@ export default function Practice() {
         </footer>
       </>}
       <div className={`practice-status${stepStatus === 'correct' ? ' is-correct' : ''}`} role="status">{audioError || message}
-        {undo && <button className="practice-undo" onClick={() => { setGroups(undo.groups); setCurrent(undo.current); setUndo(null); setMessage('Deletion undone.') }}>Undo</button>}</div>
+        {undo && !result && <button className="practice-undo" onClick={() => { setGroups(undo.groups); setCurrent(undo.current); setUndo(null); setMessage('Deletion undone.') }}>Undo</button>}</div>
     </>}
   </div>
 }

@@ -34,7 +34,7 @@ Implement the keyboard, typed input, simultaneous note groups, group navigation/
 
 ### Step 5 — Synthesia and correction feedback
 
-**Implementation status: implemented as a horizontal time/pitch piano roll and aligned correction; real iPhone acceptance pending.** The scrollable solution roll shows source duration, group boundaries, labels, and an audio-clock playhead. Green/red/yellow correction and missing/extra-group alignment are built. A classic falling-note renderer and automatic roll following are not included.
+**Implementation status: implemented as Synthesia-style falling notes and aligned correction; real iPhone acceptance pending.** The full 88-key keyboard fits desktop and mobile landscape with minimal margins. Source durations, pitch labels, group boundaries, and playback-bar seeking follow the audio clock. Green/yellow source bars and striped red answer bars distinguish correction. Native/in-page fullscreen contains the visualization and transport. Existing missing/extra-group alignment is retained; further alignment refinements are deferred.
 
 Build the animated piano roll and green/red/yellow feedback, including sequence alignment for missing/extra groups. Include synchronized seeking forward and backward and explicit solution visibility rules.
 
